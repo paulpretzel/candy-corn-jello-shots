@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Candy Corn Jello Shots</title>
+<meta name="description" content="Layered candy corn jello shots with vodka, topped with whipped cream and a candy corn. A Halloween party recipe with timers and a batch scaler.">
+<meta name="theme-color" content="#1E0F24">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%83%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night: #1E0F24;
+    --plum: #2C1736;
+    --plum-2: #3B2049;
+    --ink: #140A19;
+    --cream: #FFF4E0;
+    --pumpkin: #FF7A1F;
+    --corn: #FFC21A;
+    --lav: #CDB8D6;
+    --line: rgba(255, 244, 224, 0.14);
+    --display: "Bagel Fat One", "Arial Black", "Helvetica Neue", system-ui, sans-serif;
+    --body: "Lexend", "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1200px 700px at 88% -10%, rgba(255, 194, 26, 0.10), transparent 60%),
+      radial-gradient(900px 600px at -10% 40%, rgba(139, 77, 170, 0.18), transparent 60%),
+      var(--night);
+    color: var(--cream);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  img, svg { max-width: 100%; }
+  a { color: var(--corn); }
+
+  :focus-visible { outline: 3px solid var(--corn); outline-offset: 3px; border-radius: 6px; }
+
+  .wrap { width: min(1120px, 100% - 2.5rem); margin-inline: auto; }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+    align-items: center;
+    padding-block: clamp(2rem, 6vw, 4.5rem) clamp(2rem, 5vw, 3.5rem);
+  }
+  @media (min-width: 880px) {
+    .hero { grid-template-columns: 1.15fr 0.85fr; gap: 3rem; }
+  }
+
+  .title {
+    margin: 0 0 1.25rem;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(3.4rem, 13vw, 6.6rem);
+    line-height: 0.98;
+    letter-spacing: 0.005em;
+  }
+  /* Each word is striped like the shot itself: yellow on top, orange in the middle, cream at the bottom. */
+  .title span {
+    display: inline-block;
+    background: linear-gradient(180deg,
+      var(--corn) 0 46%,
+      var(--pumpkin) 46% 70%,
+      var(--cream) 70% 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 5px 0 var(--ink));
+  }
+
+  .lede { max-width: 34ch; margin: 0 0 1.75rem; font-size: 1.25rem; color: var(--lav); }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+    gap: 1rem 1.5rem;
+    margin: 0 0 1.75rem;
+    max-width: 34rem;
+  }
+  .facts div { border-left: 3px solid var(--pumpkin); padding-left: 0.75rem; }
+  .facts dt { font-size: 0.9rem; color: var(--lav); }
+  .facts dd { margin: 0; font-weight: 600; line-height: 1.35; }
+
+  .batch { border: 0; padding: 0; margin: 0; }
+  .batch legend { font-weight: 600; margin-bottom: 0.6rem; padding: 0; }
+  .batch-options { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .batch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .batch label {
+    cursor: pointer;
+    padding: 0.5rem 1.05rem;
+    border-radius: 999px;
+    border: 2px solid var(--line);
+    font-family: var(--display);
+    font-size: 1.15rem;
+    line-height: 1.3;
+    transition: background-color .15s, border-color .15s, color .15s;
+  }
+  .batch label:hover { border-color: var(--corn); }
+  .batch input:checked + label { background: var(--corn); border-color: var(--corn); color: var(--ink); }
+  .batch input:focus-visible + label { outline: 3px solid var(--corn); outline-offset: 3px; }
+  .batch-note { margin: 0.6rem 0 0; font-size: 0.95rem; color: var(--lav); }
+
+  .hero-art { justify-self: center; width: min(380px, 85vw); }
+
+  /* ---------- Sections ---------- */
+  section { padding-block: clamp(2.25rem, 5vw, 3.5rem); border-top: 1px solid var(--line); }
+  h2 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(2rem, 5vw, 2.6rem);
+    line-height: 1.1;
+    margin: 0 0 0.5rem;
+    color: var(--cream);
+  }
+  .section-intro { margin: 0 0 2rem; color: var(--lav); max-width: 60ch; }
+  h3 { font-size: 1.2rem; font-weight: 600; margin: 0; line-height: 1.3; }
+  strong, b { font-weight: 600; }
+
+  /* ---------- Ingredients ---------- */
+  .ing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.25rem;
+  }
+  .ing-group {
+    background: var(--plum);
+    border-top: 12px solid var(--layer, var(--cream));
+    border-radius: 6px 6px 18px 18px;
+    padding: 1.1rem 1.25rem 1.25rem;
+  }
+  .ing-group[data-layer="white"]  { --layer: var(--cream); }
+  .ing-group[data-layer="orange"] { --layer: var(--pumpkin); }
+  .ing-group[data-layer="yellow"] { --layer: var(--corn); }
+  .ing-group[data-layer="top"]    { --layer: #EADCC6; }
+  .ing-where { margin: 0.15rem 0 0.9rem; font-size: 0.95rem; color: var(--lav); }
+
+  .checklist { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
+  .checklist label { display: flex; gap: 0.7rem; align-items: flex-start; cursor: pointer; line-height: 1.4; }
+  .checklist input {
+    flex: none;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 1.3rem; height: 1.3rem;
+    margin: 0.1rem 0 0;
+    border: 2px solid var(--lav);
+    border-radius: 6px;
+    display: grid; place-content: center;
+    cursor: pointer;
+  }
+  .checklist input::after {
+    content: "";
+    width: 0.65rem; height: 0.35rem;
+    border-left: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+    transform: rotate(-45deg) translate(1px, -1px);
+    opacity: 0;
+  }
+  .checklist input:checked { background: var(--layer, var(--corn)); border-color: var(--layer, var(--corn)); }
+  .checklist input:checked::after { opacity: 1; }
+  .checklist input:checked + span { opacity: 0.5; text-decoration: line-through; }
+  .q { font-weight: 600; color: var(--cream); white-space: nowrap; }
+
+  .supplies { margin-top: 1.75rem; display: grid; gap: 1.25rem; }
+  @media (min-width: 760px) { .supplies { grid-template-columns: 1fr 1fr; } }
+  .supplies h3 { margin-bottom: 0.6rem; }
+  .vodka-total {
+    margin: 0;
+    padding: 1rem 1.2rem;
+    border: 2px dashed rgba(255, 194, 26, 0.45);
+    border-radius: 14px;
+    align-self: start;
+  }
+  .vodka-total strong { color: var(--corn); }
+
+  /* ---------- Method ---------- */
+  .method { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  @media (min-width: 900px) {
+    .method { grid-template-columns: 250px minmax(0, 1fr); gap: 3rem; align-items: start; }
+    .progress { position: sticky; top: 1.5rem; }
+  }
+
+  .progress {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 1rem;
+    align-items: center;
+    background: var(--plum);
+    border-radius: 18px;
+    padding: 1rem 1.2rem;
+  }
+  @media (min-width: 900px) {
+    .progress { grid-template-columns: 1fr; text-align: center; padding: 1.5rem 1.25rem; }
+    .progress svg { width: 170px; margin-inline: auto; }
+  }
+  .progress-count { font-weight: 600; margin: 0; font-variant-numeric: tabular-nums; }
+  .progress-note { margin: 0.25rem 0 0.8rem; font-size: 0.92rem; color: var(--lav); line-height: 1.45; }
+
+  .pc-layer {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    transform: scaleY(0);
+    transition: transform .7s cubic-bezier(.3, 1.35, .5, 1);
+  }
+  .pc-layer.on { transform: scaleY(1); }
+  .pc-top { opacity: 0; transform: translateY(-14px); transition: opacity .5s, transform .6s cubic-bezier(.3, 1.35, .5, 1); }
+  .pc-top.on { opacity: 1; transform: none; }
+
+  .btn {
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 999px;
+    padding: 0.45rem 1rem;
+    cursor: pointer;
+    border: 2px solid var(--pumpkin);
+    background: var(--pumpkin);
+    color: var(--ink);
+    transition: filter .15s, background-color .15s;
+  }
+  .btn:hover { filter: brightness(1.08); }
+  .btn:disabled { cursor: default; filter: none; }
+  .btn-ghost { background: transparent; color: var(--cream); border-color: var(--line); }
+  .btn-ghost:hover { border-color: var(--lav); }
+
+  .steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+  .step {
+    --c: var(--lav);
+    counter-increment: step;
+    position: relative;
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 0 1.1rem;
+    padding-bottom: 2.25rem;
+  }
+  .step[data-layer="white"]  { --c: var(--cream); }
+  .step[data-layer="orange"] { --c: var(--pumpkin); }
+  .step[data-layer="yellow"] { --c: var(--corn); }
+  .step[data-layer="top"]    { --c: #EADCC6; }
+
+  /* The rail between markers takes the color of the layer being built. */
+  .step::before {
+    content: "";
+    position: absolute;
+    left: calc(1.5rem - 3px);
+    top: 3rem;
+    bottom: 0;
+    width: 6px;
+    border-radius: 3px;
+    background: var(--c);
+    opacity: 0.35;
+  }
+  .step:last-child::before { display: none; }
+
+  .marker {
+    width: 3rem; height: 3rem;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--c);
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 1.3rem;
+    line-height: 1;
+  }
+  .marker::before { content: counter(step); }
+  .step.is-done .marker::before { content: "\2713"; font-family: var(--body); font-weight: 600; }
+
+  .step-body { padding-top: 0.55rem; }
+  .step-body p { margin: 0.4rem 0 0; max-width: 62ch; }
+  .step.is-done h3, .step.is-done .step-body p { opacity: 0.55; }
+
+  .step-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-top: 0.9rem; }
+
+  .done-toggle { display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; font-weight: 600; font-size: 0.95rem; }
+  .done-toggle input {
+    appearance: none; -webkit-appearance: none;
+    width: 2.6rem; height: 1.5rem; margin: 0;
+    border-radius: 999px;
+    background: var(--plum-2);
+    border: 2px solid var(--line);
+    position: relative;
+    cursor: pointer;
+    transition: background-color .2s;
+  }
+  .done-toggle input::after {
+    content: "";
+    position: absolute; top: 2px; left: 2px;
+    width: 1rem; height: 1rem;
+    border-radius: 50%;
+    background: var(--lav);
+    transition: transform .2s, background-color .2s;
+  }
+  .done-toggle input:checked { background: var(--c); border-color: var(--c); }
+  .done-toggle input:checked::after { transform: translateX(1.1rem); background: var(--ink); }
+
+  .timer {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.3rem 0.35rem 0.3rem 0.9rem;
+    border-radius: 999px;
+    background: var(--plum);
+    border: 2px solid var(--line);
+  }
+  .t-display { font-weight: 600; font-variant-numeric: tabular-nums; min-width: 4.2ch; }
+  .timer.is-running { border-color: var(--corn); }
+  .timer.is-done { border-color: var(--pumpkin); background: rgba(255, 122, 31, 0.18); animation: pulse 1s ease-in-out 4; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 6px rgba(255, 122, 31, 0.35); } }
+
+  /* ---------- Tips ---------- */
+  .tips { display: grid; gap: 1.75rem 2.5rem; }
+  @media (min-width: 760px) { .tips { grid-template-columns: 1fr 1fr; } }
+  .tip { display: grid; grid-template-columns: 22px 1fr; gap: 0.9rem; }
+  .tip svg { margin-top: 0.2rem; }
+  .tip p { margin: 0.3rem 0 0; color: var(--lav); max-width: 52ch; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding-block: 2rem 3rem;
+    color: var(--lav);
+    font-size: 0.98rem;
+  }
+  footer p { margin: 0.25rem 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Shared shapes -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <clipPath id="cc-clip">
+      <path d="M0,-22 C5,-15 13,0 14,8 C15,15 9,17 0,17 C-9,17 -15,15 -14,8 C-13,0 -5,-15 0,-22 Z"/>
+    </clipPath>
+    <g id="candy-corn">
+      <g clip-path="url(#cc-clip)">
+        <rect x="-16" y="-23" width="32" height="14" fill="#FFF4E0"/>
+        <rect x="-16" y="-9" width="32" height="13" fill="#FF7A1F"/>
+        <rect x="-16" y="4" width="32" height="14" fill="#FFC21A"/>
+      </g>
+      <path d="M0,-22 C5,-15 13,0 14,8 C15,15 9,17 0,17 C-9,17 -15,15 -14,8 C-13,0 -5,-15 0,-22 Z" fill="none" stroke="#140A19" stroke-opacity=".35" stroke-width="1.5"/>
+    </g>
+    <path id="bat" d="M0 8 C-4 4 -10 2 -14 6 C-16 0 -22 -2 -30 0 C-24 -6 -16 -12 -6 -8 L-4 -13 L-2 -9 L2 -9 L4 -13 L6 -8 C16 -12 24 -6 30 0 C22 -2 16 0 14 6 C10 2 4 4 0 8 Z"/>
+    <g id="cream">
+      <path d="M58,152 C50,134 74,122 92,127 C101,115 139,115 148,127 C166,122 190,134 182,152 Z"/>
+      <path d="M74,131 C69,113 91,103 104,108 C112,97 132,97 138,108 C152,103 172,113 166,131 Z"/>
+      <path d="M90,111 C87,93 106,86 120,90 C133,86 152,93 150,111 Z"/>
+      <path d="M108,95 C110,78 121,68 133,60 C129,73 134,84 132,95 Z"/>
+    </g>
+  </defs>
+</svg>
+
+<main class="wrap">
+
+  <header class="hero">
+    <div>
+      <h1 class="title"><span>Candy</span> <span>Corn</span> <span>Jello</span> <span>Shots</span></h1>
+      <p class="lede">Creamy white, orange, and lemon-yellow layers spiked with vodka, finished with a swirl of whipped cream and a candy corn on top.</p>
+
+      <dl class="facts">
+        <div><dt>Hands-on</dt><dd>About 45 minutes</dd></div>
+        <div><dt>Start to finish</dt><dd>About 4 hours, mostly chilling</dd></div>
+        <div><dt>Per shot</dt><dd>About ¼ of a standard shot</dd></div>
+      </dl>
+
+      <fieldset class="batch">
+        <legend>How many shots are you making?</legend>
+        <div class="batch-options">
+          <input type="radio" name="batch" id="b1" value="1" checked><label for="b1">30</label>
+          <input type="radio" name="batch" id="b2" value="2"><label for="b2">60</label>
+          <input type="radio" name="batch" id="b3" value="3"><label for="b3">90</label>
+          <input type="radio" name="batch" id="b4" value="4"><label for="b4">120</label>
+        </div>
+        <p class="batch-note">Every amount on the page updates to match.</p>
+      </fieldset>
+    </div>
+
+    <svg class="hero-art" viewBox="0 0 240 300" role="img" aria-labelledby="hero-art-title">
+      <title id="hero-art-title">A layered jello shot in front of a full moon: white on the bottom, orange in the middle, yellow on top, with whipped cream and a candy corn.</title>
+      <defs>
+        <radialGradient id="moon" cx="50%" cy="45%" r="55%">
+          <stop offset="0" stop-color="#FFE9B5" stop-opacity=".34"/>
+          <stop offset=".75" stop-color="#FFE9B5" stop-opacity=".2"/>
+          <stop offset="1" stop-color="#FFE9B5" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="142" cy="100" r="94" fill="url(#moon)"/>
+      <circle cx="142" cy="100" r="70" fill="#FFE9B5" fill-opacity=".12"/>
+      <g fill="#140A19">
+        <use href="#bat" transform="translate(196 36) scale(.75) rotate(-8)"/>
+        <use href="#bat" transform="translate(42 62) scale(.55) rotate(10)"/>
+        <use href="#bat" transform="translate(214 128) scale(.42) rotate(-14)"/>
+      </g>
+
+      <!-- Layers, bottom to top -->
+      <polygon points="68,232 172,232 165,278 75,278" fill="#FFF4E0"/>
+      <polygon points="62,190 178,190 172,232 68,232" fill="#FF7A1F"/>
+      <polygon points="56,150 184,150 178,190 62,190" fill="#FFC21A"/>
+      <!-- Whipped cream -->
+      <use href="#cream" fill="#FFFBF3" stroke="#D9C4A6" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M84,140 C104,134 136,134 158,140 M94,119 C110,114 130,114 148,119" fill="none" stroke="#D9C4A6" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Candy corn -->
+      <use href="#candy-corn" transform="translate(138 66) rotate(20) scale(1.25)"/>
+      <!-- Cup -->
+      <polygon points="48,108 192,108 167,282 73,282" fill="#FFFFFF" fill-opacity=".05" stroke="#FFF4E0" stroke-opacity=".6" stroke-width="2.5" stroke-linejoin="round"/>
+      <ellipse cx="120" cy="108" rx="72" ry="6" fill="none" stroke="#FFF4E0" stroke-opacity=".6" stroke-width="2.5"/>
+      <path d="M60,122 L80,268" stroke="#FFFFFF" stroke-opacity=".28" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+  </header>
+
+  <section id="ingredients" aria-labelledby="ing-h">
+    <h2 id="ing-h">What you need</h2>
+    <p class="section-intro">The layers go into each cup from the bottom up, so they're listed in the order you'll make them. Tick things off as you shop or prep.</p>
+
+    <div class="ing-grid">
+      <div class="ing-group" data-layer="white">
+        <h3>White layer</h3>
+        <p class="ing-where">Goes in first, at the bottom</p>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span><span class="q" data-q="1" data-unit="envelope">1 envelope</span> (¼ oz each) unflavored gelatin</span></label></li>
+          <li><label><input type="checkbox"><span><span class="q" data-q="0.25" data-unit="cup">¼ cup</span> cold water</span></label></li>
+          <li><label><input type="checkbox"><span><span class="q" data-q="0.25" data-unit="cup">¼ cup</span> boiling water</span></label></li>
+          <li><label><input type="checkbox"><span><span class="q" data-q="0.5" data-unit="cup">½ cup</span> sweetened condensed milk</span></label></li>
+          <li><label><input type="checkbox"><span><span class="q" data-q="0.5" data-unit="cup">½ cup</span> vodka</span></label></li>
+        </ul>
+      </div>
+
+      <div class="ing-group" data-layer="orange">
+        <h3>Orange layer</h3>
+        <p class="ing-where">The middle stripe</p>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span><span class="q" data-q="1" data-unit="box">1 box</span> (3 oz each) orange gelatin</span></label></li>
+          <li><label><input type="checkbox"><span><span class="q" data-q="1" data-unit="cup">1 cup</span> boiling water</span></label></li>
+          <li><label><input type="checkbox"><span><span class="q" data-q="0.5" data-unit="cup">½ cup</span> cold water</span></label></li>
+          <li><label><input type="checkbox"><span><span class="q" data-q="0.5" data-unit="cup">½ cup</span> vodka</span></label></li>
+        </ul>
+      </div>
+
+      <div class="ing-group" data-layer="yellow">
+        <h3>Yellow layer</h3>
+        <p class="ing-where">The wide top stripe</p>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span><span class="q" data-q="1" data-unit="box">1 box</span> (3 oz each) lemon gelatin</span></label></li>
+          <li><label><input type="checkbox"><span><span class="q" data-q="1" data-unit="cup">1 cup</span> boiling water</span></label></li>
+          <li><label><input type="checkbox"><span><span class="q" data-q="0.5" data-unit="cup">½ cup</span> cold water</span></label></li>
+          <li><label><input type="checkbox"><span><span class="q" data-q="0.5" data-unit="cup">½ cup</span> vodka</span></label></li>
+        </ul>
+      </div>
+
+      <div class="ing-group" data-layer="top">
+        <h3>Topping</h3>
+        <p class="ing-where">Added right before serving</p>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span><span class="q" data-q="1" data-unit="can">1 can</span> store-bought aerosol whipped cream</span></label></li>
+          <li><label><input type="checkbox"><span><span class="q" data-q="30" data-unit="piece">30 pieces</span> candy corn</span></label></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="supplies">
+      <div>
+        <h3>Supplies</h3>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span><span class="q" data-q="30" data-unit="">30</span> two-ounce plastic shot cups with lids</span></label></li>
+          <li><label><input type="checkbox"><span>A rimmed baking sheet to carry the cups</span></label></li>
+          <li><label><input type="checkbox"><span>A spouted measuring cup or squeeze bottle for pouring</span></label></li>
+        </ul>
+      </div>
+      <p class="vodka-total" aria-live="polite">Vodka for this batch: <strong id="vodka-amount">1½ cups (12 oz)</strong>. <span id="vodka-bottle">A 375 ml bottle covers it.</span></p>
+    </div>
+  </section>
+
+  <section id="method" aria-labelledby="method-h">
+    <h2 id="method-h">Make them</h2>
+    <p class="section-intro">Mix each new layer while the one before it chills, then pour once it's cooled to room temperature. Flip the switch on each step as you go.</p>
+
+    <div class="method">
+      <aside class="progress" aria-label="Your progress">
+        <svg viewBox="40 40 160 250" aria-hidden="true">
+          <polygon class="pc-layer" data-fill="white"  points="68,232 172,232 165,278 75,278" fill="#FFF4E0"/>
+          <polygon class="pc-layer" data-fill="orange" points="62,190 178,190 172,232 68,232" fill="#FF7A1F"/>
+          <polygon class="pc-layer" data-fill="yellow" points="56,150 184,150 178,190 62,190" fill="#FFC21A"/>
+          <g class="pc-top" data-fill="top">
+            <use href="#cream" fill="#FFFBF3" stroke="#D9C4A6" stroke-width="1.5" stroke-linejoin="round"/>
+            <use href="#candy-corn" transform="translate(138 66) rotate(20) scale(1.25)"/>
+          </g>
+          <polygon points="48,108 192,108 167,282 73,282" fill="#FFFFFF" fill-opacity=".05" stroke="#FFF4E0" stroke-opacity=".6" stroke-width="3" stroke-linejoin="round"/>
+          <ellipse cx="120" cy="108" rx="72" ry="6" fill="none" stroke="#FFF4E0" stroke-opacity=".6" stroke-width="3"/>
+        </svg>
+        <div>
+          <p class="progress-count" id="progress-count">0 of 9 steps done</p>
+          <p class="progress-note">Timers beep when they finish, so keep this tab open.</p>
+          <button type="button" class="btn btn-ghost" id="reset-all">Start over</button>
+        </div>
+      </aside>
+
+      <ol class="steps">
+        <li class="step" data-layer="prep">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="step-body">
+            <h3>Set up the cups</h3>
+            <p>Line up <span class="q" data-q="30" data-unit="">30</span> shot cups on a rimmed baking sheet so you can slide the whole tray in and out of the fridge.</p>
+            <div class="step-tools">
+              <label class="done-toggle"><input type="checkbox" class="step-done"> Done</label>
+            </div>
+          </div>
+        </li>
+
+        <li class="step" data-layer="white">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="step-body">
+            <h3>Bloom the gelatin</h3>
+            <p>Sprinkle <span class="q" data-q="1" data-unit="envelope">1 envelope</span> of unflavored gelatin over <span class="q" data-q="0.25" data-unit="cup">¼ cup</span> cold water in a heatproof bowl. Don't stir. Let it sit until it looks wrinkly and fully soaked.</p>
+            <div class="step-tools">
+              <div class="timer" data-seconds="300"><span class="t-display">5:00</span><button type="button" class="btn t-start">Start timer</button><button type="button" class="btn btn-ghost t-reset">Reset</button></div>
+              <label class="done-toggle"><input type="checkbox" class="step-done"> Done</label>
+            </div>
+          </div>
+        </li>
+
+        <li class="step" data-layer="white" data-fills="white">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="step-body">
+            <h3>Make and pour the white layer</h3>
+            <p>Pour <span class="q" data-q="0.25" data-unit="cup">¼ cup</span> boiling water over the gelatin and stir until no grains remain. Whisk in <span class="q" data-q="0.5" data-unit="cup">½ cup</span> sweetened condensed milk, then stir in <span class="q" data-q="0.5" data-unit="cup">½ cup</span> vodka. Pour a scant tablespoon into each cup.</p>
+            <div class="step-tools">
+              <label class="done-toggle"><input type="checkbox" class="step-done"> Done</label>
+            </div>
+          </div>
+        </li>
+
+        <li class="step" data-layer="white">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="step-body">
+            <h3>Chill until tacky</h3>
+            <p>Refrigerate 30 to 45 minutes, until set but still a little sticky to the touch. That tackiness is what lets the next layer grab on.</p>
+            <div class="step-tools">
+              <div class="timer" data-seconds="2400"><span class="t-display">40:00</span><button type="button" class="btn t-start">Start timer</button><button type="button" class="btn btn-ghost t-reset">Reset</button></div>
+              <label class="done-toggle"><input type="checkbox" class="step-done"> Done</label>
+            </div>
+          </div>
+        </li>
+
+        <li class="step" data-layer="orange">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="step-body">
+            <h3>Mix the orange layer</h3>
+            <p>While the white layer chills, stir <span class="q" data-q="1" data-unit="box">1 box</span> of orange gelatin into <span class="q" data-q="1" data-unit="cup">1 cup</span> boiling water for 2 minutes, until fully dissolved. Stir in <span class="q" data-q="0.5" data-unit="cup">½ cup</span> cold water and <span class="q" data-q="0.5" data-unit="cup">½ cup</span> vodka. Let it cool on the counter to room temperature. Warm gelatin will melt the layer below it.</p>
+            <div class="step-tools">
+              <label class="done-toggle"><input type="checkbox" class="step-done"> Done</label>
+            </div>
+          </div>
+        </li>
+
+        <li class="step" data-layer="orange" data-fills="orange">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="step-body">
+            <h3>Pour the orange layer and chill</h3>
+            <p>Pour about 1 tablespoon into each cup, slowly and over the back of a spoon so it doesn't dig into the white layer. Refrigerate 30 to 45 minutes, until tacky.</p>
+            <div class="step-tools">
+              <div class="timer" data-seconds="2400"><span class="t-display">40:00</span><button type="button" class="btn t-start">Start timer</button><button type="button" class="btn btn-ghost t-reset">Reset</button></div>
+              <label class="done-toggle"><input type="checkbox" class="step-done"> Done</label>
+            </div>
+          </div>
+        </li>
+
+        <li class="step" data-layer="yellow">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="step-body">
+            <h3>Mix the yellow layer</h3>
+            <p>While the orange layer chills, make the lemon layer the same way: stir <span class="q" data-q="1" data-unit="box">1 box</span> of lemon gelatin into <span class="q" data-q="1" data-unit="cup">1 cup</span> boiling water, then add <span class="q" data-q="0.5" data-unit="cup">½ cup</span> cold water and <span class="q" data-q="0.5" data-unit="cup">½ cup</span> vodka. Cool it on the counter, not in the fridge, or it will start to set.</p>
+            <div class="step-tools">
+              <label class="done-toggle"><input type="checkbox" class="step-done"> Done</label>
+            </div>
+          </div>
+        </li>
+
+        <li class="step" data-layer="yellow" data-fills="yellow">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="step-body">
+            <h3>Pour the yellow layer and set</h3>
+            <p>Pour about 1 tablespoon into each cup. Refrigerate at least 2 hours, or overnight, until completely firm. Snap the lids on if you're making them ahead.</p>
+            <div class="step-tools">
+              <div class="timer" data-seconds="7200"><span class="t-display">2:00:00</span><button type="button" class="btn t-start">Start timer</button><button type="button" class="btn btn-ghost t-reset">Reset</button></div>
+              <label class="done-toggle"><input type="checkbox" class="step-done"> Done</label>
+            </div>
+          </div>
+        </li>
+
+        <li class="step" data-layer="top" data-fills="top">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="step-body">
+            <h3>Top and serve</h3>
+            <p>Right before serving, shake the whipped cream can well, hold it straight upside down, and spray a small swirl onto each shot. Press a candy corn into each swirl and serve cold. Canned whipped cream starts to deflate after about 15 minutes, so top the shots in rounds as guests arrive.</p>
+            <div class="step-tools">
+              <label class="done-toggle"><input type="checkbox" class="step-done"> Done</label>
+            </div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="tips" aria-labelledby="tips-h">
+    <h2 id="tips-h">Tips for a good batch</h2>
+    <p class="section-intro">Small things that make the layers neat and the party easier.</p>
+
+    <div class="tips">
+      <div class="tip">
+        <svg viewBox="-16 -23 32 41" width="22" height="28" aria-hidden="true"><use href="#candy-corn"/></svg>
+        <div><h3>Make them ahead</h3><p>With lids on, the layered shots keep 2 to 3 days in the fridge. Add the whipped cream and candy corn only when you serve.</p></div>
+      </div>
+      <div class="tip">
+        <svg viewBox="-16 -23 32 41" width="22" height="28" aria-hidden="true"><use href="#candy-corn"/></svg>
+        <div><h3>Get clean, straight lines</h3><p>Every layer should go in at room temperature, onto a layer that's set but still tacky. If the layer below is fully firm, the layers can separate. If it's still soft, the colors bleed together.</p></div>
+      </div>
+      <div class="tip">
+        <svg viewBox="-16 -23 32 41" width="22" height="28" aria-hidden="true"><use href="#candy-corn"/></svg>
+        <div><h3>Know how strong they are</h3><p>Each shot has about 0.4 oz of vodka, roughly a quarter of a standard shot. For stronger ones, use ¾ cup vodka and ¼ cup cold water per batch in the orange and yellow layers. More alcohol than that and they won't set well.</p></div>
+      </div>
+      <div class="tip">
+        <svg viewBox="-16 -23 32 41" width="22" height="28" aria-hidden="true"><use href="#candy-corn"/></svg>
+        <div><h3>Add a little candy corn flavor</h3><p>Candy corn tastes like honey and vanilla. Stirring ¼ teaspoon of vanilla extract into the white layer along with the vodka brings it closer.</p></div>
+      </div>
+      <div class="tip">
+        <svg viewBox="-16 -23 32 41" width="22" height="28" aria-hidden="true"><use href="#candy-corn"/></svg>
+        <div><h3>Make some alcohol-free</h3><p>Replace all of the vodka with cold water. Use a different cup color or a label so they don't get mixed in with the spiked ones.</p></div>
+      </div>
+      <div class="tip">
+        <svg viewBox="-16 -23 32 41" width="22" height="28" aria-hidden="true"><use href="#candy-corn"/></svg>
+        <div><h3>Help them slide out</h3><p>Tell guests to squeeze the cup or run a finger around the edge first. The whole shot loosens and slides out in one go.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>For guests 21 and over. Please drink responsibly and make sure everyone has a safe ride home.</p>
+    <p>Happy Halloween!</p>
+  </footer>
+</main>
+
+<div class="sr-only" aria-live="assertive" id="announcer"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Batch scaling ---------- */
+  var FRACTIONS = { 0: "", 0.25: "¼", 0.5: "½", 0.75: "¾" };
+  var UNITS = {
+    cup: ["cup", "cups"],
+    envelope: ["envelope", "envelopes"],
+    box: ["box", "boxes"],
+    can: ["can", "cans"],
+    piece: ["piece", "pieces"]
+  };
+
+  function formatAmount(n) {
+    var whole = Math.floor(n + 1e-9);
+    var frac = Math.round((n - whole) * 4) / 4;
+    if (frac === 1) { whole += 1; frac = 0; }
+    var f = FRACTIONS[frac] || "";
+    if (whole === 0) return f || "0";
+    return whole + f;
+  }
+
+  function unitLabel(unit, n) {
+    var forms = UNITS[unit];
+    if (!forms) return "";
+    return n > 1 ? forms[1] : forms[0];
+  }
+
+  var BOTTLES = [
+    { ml: 375, text: "A 375 ml bottle covers it." },
+    { ml: 750, text: "A 750 ml bottle covers it." },
+    { ml: 1000, text: "A 1 liter bottle covers it." },
+    { ml: 1750, text: "A 1.75 liter bottle covers it." }
+  ];
+
+  function applyBatch(mult) {
+    document.querySelectorAll("[data-q]").forEach(function (el) {
+      var n = parseFloat(el.dataset.q) * mult;
+      var unit = el.dataset.unit || "";
+      var label = unitLabel(unit, n);
+      el.textContent = formatAmount(n) + (label ? " " + label : "");
+    });
+
+    var cups = 1.5 * mult;
+    var oz = 12 * mult;
+    var ml = oz * 29.5735;
+    document.getElementById("vodka-amount").textContent =
+      formatAmount(cups) + " cups (" + oz + " oz)";
+    var bottle = BOTTLES.find(function (b) { return b.ml >= ml; });
+    document.getElementById("vodka-bottle").textContent = bottle
+      ? bottle.text
+      : "Pick up a 1.75 liter bottle plus a little extra.";
+  }
+
+  document.querySelectorAll('input[name="batch"]').forEach(function (r) {
+    r.addEventListener("change", function () { applyBatch(parseInt(r.value, 10)); });
+  });
+
+  /* ---------- Sound ---------- */
+  var audioCtx = null;
+  function primeAudio() {
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+    } catch (e) { audioCtx = null; }
+  }
+  function chime() {
+    if (!audioCtx) return;
+    try {
+      var t = audioCtx.currentTime;
+      [0, 0.28, 0.56, 1.2, 1.48, 1.76].forEach(function (d, i) {
+        var o = audioCtx.createOscillator();
+        var g = audioCtx.createGain();
+        o.type = "triangle";
+        o.frequency.value = i % 3 === 2 ? 880 : 660;
+        g.gain.setValueAtTime(0.0001, t + d);
+        g.gain.exponentialRampToValueAtTime(0.3, t + d + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + d + 0.22);
+        o.connect(g); g.connect(audioCtx.destination);
+        o.start(t + d); o.stop(t + d + 0.25);
+      });
+    } catch (e) {}
+    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+  }
+
+  var announcer = document.getElementById("announcer");
+  function announce(msg) {
+    announcer.textContent = "";
+    setTimeout(function () { announcer.textContent = msg; }, 50);
+  }
+
+  /* ---------- Timers ---------- */
+  function formatTime(s) {
+    var h = Math.floor(s / 3600);
+    var m = Math.floor((s % 3600) / 60);
+    var sec = s % 60;
+    var mm = h ? String(m).padStart(2, "0") : String(m);
+    return (h ? h + ":" : "") + mm + ":" + String(sec).padStart(2, "0");
+  }
+
+  var timers = [];
+  document.querySelectorAll(".timer").forEach(function (box) {
+    var total = parseInt(box.dataset.seconds, 10);
+    var remaining = total;
+    var endAt = 0;
+    var interval = null;
+    var display = box.querySelector(".t-display");
+    var startBtn = box.querySelector(".t-start");
+    var resetBtn = box.querySelector(".t-reset");
+    var stepName = box.closest(".step").querySelector("h3").textContent;
+
+    function render() { display.textContent = formatTime(remaining); }
+
+    function stop() {
+      clearInterval(interval);
+      interval = null;
+      box.classList.remove("is-running");
+    }
+
+    function tick() {
+      remaining = Math.max(0, Math.round((endAt - Date.now()) / 1000));
+      render();
+      if (remaining === 0) {
+        stop();
+        box.classList.add("is-done");
+        startBtn.textContent = "Time's up";
+        startBtn.disabled = true;
+        chime();
+        announce("Timer finished: " + stepName + ".");
+      }
+    }
+
+    function reset() {
+      stop();
+      remaining = total;
+      render();
+      box.classList.remove("is-done");
+      startBtn.disabled = false;
+      startBtn.textContent = "Start timer";
+    }
+
+    startBtn.addEventListener("click", function () {
+      primeAudio();
+      if (interval) {
+        stop();
+        startBtn.textContent = "Resume";
+      } else {
+        endAt = Date.now() + remaining * 1000;
+        interval = setInterval(tick, 250);
+        box.classList.add("is-running");
+        startBtn.textContent = "Pause";
+      }
+    });
+    resetBtn.addEventListener("click", reset);
+
+    render();
+    timers.push(reset);
+  });
+
+  /* ---------- Step progress and the filling cup ---------- */
+  var steps = Array.prototype.slice.call(document.querySelectorAll(".step"));
+  var countEl = document.getElementById("progress-count");
+
+  function updateProgress() {
+    var done = 0;
+    var filled = {};
+    steps.forEach(function (step) {
+      var box = step.querySelector(".step-done");
+      step.classList.toggle("is-done", box.checked);
+      if (box.checked) {
+        done += 1;
+        if (step.dataset.fills) filled[step.dataset.fills] = true;
+      }
+    });
+    document.querySelectorAll("[data-fill]").forEach(function (layer) {
+      layer.classList.toggle("on", !!filled[layer.dataset.fill]);
+    });
+    countEl.textContent = done === steps.length
+      ? "All done. Happy Halloween!"
+      : done + " of " + steps.length + " steps done";
+  }
+
+  steps.forEach(function (step) {
+    step.querySelector(".step-done").addEventListener("change", updateProgress);
+  });
+
+  document.getElementById("reset-all").addEventListener("click", function () {
+    steps.forEach(function (step) { step.querySelector(".step-done").checked = false; });
+    document.querySelectorAll(".checklist input").forEach(function (c) { c.checked = false; });
+    timers.forEach(function (reset) { reset(); });
+    updateProgress();
+  });
+
+  updateProgress();
+})();
+</script>
+</body>
+</html>
